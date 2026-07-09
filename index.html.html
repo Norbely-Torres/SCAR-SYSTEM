@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCAR SYSTEM - Control de Acceso Inteligente</title>
+    <style>
+        /* Variables de color actualizadas a Negro Puro */
+        :root {
+            --bg-principal: #000000;
+            --bg-secundario: #121212;
+            --bg-tarjetas: #1e1e1e;
+            --texto-blanco: #ffffff;
+            --texto-mutado: #a0a0a0;
+            --azul-electrico: #00bcff;
+            --azul-oscuro: #1e40af;
+        }
+
+        /* Estilos Generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-blanco);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--texto-blanco);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--azul-electrico);
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Navbar / Encabezado */
+        header {
+            background-color: var(--bg-secundario);
+            border-bottom: 1px solid rgba(0, 188, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--azul-electrico);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: var(--texto-blanco);
+        }
+
+        .logo-text span {
+            color: var(--azul-electrico);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--texto-blanco);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--azul-electrico);
+        }
+
+        /* Hero / Bienvenida */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, var(--bg-secundario) 0%, var(--bg-principal) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 30px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 188, 255, 0.3);
+            border: 3px solid var(--azul-electrico);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--texto-mutado);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sección Encargados (Bloquesitos) */
+        .encargados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .encargado-card {
+            background-color: var(--bg-secundario);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .encargado-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--azul-electrico);
+            box-shadow: 0 10px 20px rgba(0, 188, 255, 0.15);
+        }
+
+        .encargado-avatar {
+            width: 80px;
+            height: 80px;
+            background-color: var(--bg-tarjetas);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .encargado-avatar svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--azul-electrico);
+        }
+
+        .encargado-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .encargado-card p {
+            color: var(--azul-electrico);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Información del Proyecto */
+        .info-section {
+            background-color: var(--bg-secundario);
+            padding: 60px 0;
+            border-radius: 12px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .info-block {
+            margin-bottom: 40px;
+            padding: 0 30px;
+        }
+
+        .info-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-block h3 {
+            color: var(--azul-electrico);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-block p {
+            color: var(--texto-mutado);
+            text-align: justify;
+        }
+
+        /* Listas de viñetas */
+        .tech-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .tech-list li {
+            background-color: var(--bg-principal);
+            padding: 12px 20px;
+            border-radius: 6px;
+            border-left: 4px solid var(--azul-electrico);
+            font-size: 0.95rem;
+        }
+
+        /* Formulario de Contacto */
+        .contacto-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--bg-secundario);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 188, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--texto-mutado);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-principal);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--azul-electrico);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--azul-oscuro);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--azul-electrico);
+            box-shadow: 0 0 15px rgba(0, 188, 255, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--bg-secundario);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: var(--texto-mutado);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <img src="Logo.jpeg" alt="SCAR Logo" class="logo-img">
+                <div class="logo-text">SCAR <span>SYSTEM</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#equipo">Equipo</a></li>
+                    <li><a href="#proyecto">Proyecto</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección Hero de Entrada -->
+    <section class="hero" id="inicio">
+        <img src="Logo.jpeg" alt="SCAR Logo Grande" class="hero-logo">
+        <h1>SCAR SYSTEM</h1>
+        <p>Sistema de Control de Acceso mediante Reconocimiento Facial impulsado por Inteligencia Artificial y Visión por Computadora.</p>
+    </section>
+
+    <!-- Sección de Encargados en Bloques -->
+    <section class="container" id="equipo">
+        <h2>Encargados del Proyecto</h2>
+        <div class="encargados-grid">
+            
+            <div class="encargado-card">
+                <div class="encargado-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <h3>Jeremy Najarro</h3>
+                <p>Director Ejecutivo</p>
+            </div>
+
+            <div class="encargado-card">
+                <div class="encargado-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <h3>Norbely Reyes</h3>
+                <p>Director de Desarrollo</p>
+            </div>
+
+            <div class="encargado-card">
+                <div class="encargado-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <h3>Alisson Miranda</h3>
+                <p>Director Comercial</p>
+            </div>
+
+            <div class="encargado-card">
+                <div class="encargado-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <h3>Adonay Delgado</h3>
+                <p>Director de Innovación</p>
+            </div>
+
+            <div class="encargado-card">
+                <div class="encargado-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <h3>Verónica López</h3>
+                <p>Director de Marketing</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sección de Información (Documentación de SCAR) -->
+    <section class="container" id="proyecto">
+        <h2>Información de SCAR</h2>
+        <div class="info-section">
+            
+            <div class="info-block">
+                <h3>Nuestra Historia</h3>
+                <p>Cada mañana, cientos de padres despiden a sus hijos con la tranquilidad de que van camino a estudiar. Sin embargo, en ocasiones surge la incertidumbre sobre si realmente llegaron a las instituciones. De los problemas cotidianos de los sistemas de identificación convencionales (pérdida de carnets, suplantación o retrasos) nace SCAR: un sistema inteligente diseñado para registrar entradas y salidas en tiempo real, garantizando un respaldo confiable y la paz mental que las familias e instituciones necesitan.</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Descripción del Sistema</h3>
+                <p>SCAR System integra hardware de captura de video con algoritmos avanzados de visión artificial. Al posicionarse frente a la cámara, el software extrae los rasgos biométricos del rostro y los contrasta con una base de datos segura. Si hay coincidencia, autoriza el acceso registrando la marca temporal exacta; en caso contrario, restringe el ingreso y, opcionalmente, emite notificaciones automatizadas vía correo electrónico.</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Proceso de Desarrollo</h3>
+                <ul class="tech-list">
+                    <li>Investigación biométrica y alcance.</li>
+                    <li>Diseño arquitectónico del software.</li>
+                    <li>Entorno de desarrollo bajo Python y librerías de IA.</li>
+                    <li>Despliegue del motor de reconocimiento facial.</li>
+                    <li>Modelado de bases de datos de usuarios autorizados.</li>
+                    <li>Automatización de registros de marcas y logs de tiempo.</li>
+                    <li>Módulo de notificaciones vía correo electrónico.</li>
+                    <li>Fase rigurosa de testing y optimización.</li>
+                </ul>
+            </div>
+
+            <div class="info-block">
+                <h3>Ventajas Competitivas</h3>
+                <ul class="tech-list">
+                    <li>Seguridad perimetral robusta e incorruptible.</li>
+                    <li>Identificación y autenticación en milisegundos.</li>
+                    <li>Eliminación de costes en tarjetas físicas o llaves de proximidad.</li>
+                    <li>Reducción absoluta del margen de error humano.</li>
+                    <li>Adaptabilidad para escuelas, corporativos y sector comercial.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section class="container" id="contacto">
+        <h2>Contacto SCAR</h2>
+        <div class="contacto-wrapper">
+            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('¡Mensaje enviado con éxito!');">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo / Institución</label>
+                    <input type="text" id="nombre" class="form-control" placeholder="Ej. Instituto Tecnológico" required>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" class="form-control" placeholder="nombre@correo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje o Consulta sobre el Sistema</label>
+                    <textarea id="mensaje" class="form-control" placeholder="Escribe los detalles de tu consulta aquí..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar Solicitud de Información</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer de la página -->
+    <footer>
+        <p>&copy; 2026 SCAR SYSTEM. Todos los derechos reservados.</p>
+        <p>Tecnología Avanzada en Control de Acceso</p>
+    </footer>
+
+</body>
+</html>
